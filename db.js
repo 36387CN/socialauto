@@ -69,7 +69,7 @@ async function initDb() {
     + "password TEXT NOT NULL,"
     + "name TEXT,"
     + "company TEXT,"
-    + "plan TEXT DEFAULT 'free'," +
+    + "plan TEXT DEFAULT 'free',"
     + "is_admin INTEGER DEFAULT 0,"
     + "referral_code TEXT UNIQUE,"
     + "referred_by INTEGER,"
