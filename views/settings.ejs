@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %> - 社媒自动化助手</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <div class="app-layout">
+        <nav class="sidebar">
+            <div class="sidebar-header">
+                <h2>社媒自动化助手</h2>
+            </div>
+            <ul class="nav-list">
+                <li><a href="/dashboard" class="nav-item">控制台</a></li>
+                <li><a href="/dashboard/posts" class="nav-item">内容管理</a></li>
+                <li><a href="/dashboard/analytics" class="nav-item">数据分析</a></li>
+                <li><a href="/dashboard/settings" class="nav-item active">设置</a></li>
+            </ul>
+            <div class="sidebar-footer">
+                <span><%= user.name || user.email %></span>
+                <a href="/auth/logout" class="btn-small">退出</a>
+            </div>
+        </nav>
+        <main class="main-content">
+            <h1>设置</h1>
+            <form method="POST" action="/dashboard/settings" class="settings-form">
+                <div class="form-group">
+                    <label>邮箱（不可修改）</label>
+                    <input type="email" value="<%= user.email %>" disabled>
+                </div>
+                <div class="form-group">
+                    <label>姓名</label>
+                    <input type="text" name="name" value="<%= user.name || '' %>" placeholder="您的姓名">
+                </div>
+                <div class="form-group">
+                    <label>公司名称</label>
+                    <input type="text" name="company" value="<%= user.company || '' %>" placeholder="公司/店铺名称">
+                </div>
+                <div class="form-group">
+                    <label>当前套餐</label>
+                    <input type="text" value="<%= user.plan === 'free' ? '免费试用中' : user.plan %>" disabled>
+                </div>
+                <button type="submit" class="btn-primary">保存设置</button>
+            </form>
+        </main>
+    </div>
+</body>
+</html>

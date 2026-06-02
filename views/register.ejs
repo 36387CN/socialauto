@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %> - 社媒自动化助手</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <div class="auth-page">
+        <div class="auth-card">
+            <a href="/" class="auth-logo">社媒自动化助手</a>
+            <h2>免费注册</h2>
+            <p class="auth-subtitle">7天免费试用，随时取消</p>
+            <% if (error) { %>
+                <div class="alert alert-error"><%= error %></div>
+            <% } %>
+            <form method="POST" action="/auth/register">
+                <div class="form-group">
+                    <label>邮箱 *</label>
+                    <input type="email" name="email" placeholder="your@email.com" required>
+                </div>
+                <div class="form-group">
+                    <label>密码 *</label>
+                    <input type="password" name="password" placeholder="至少6位密码" minlength="6" required>
+                </div>
+                <div class="form-group">
+                    <label>姓名</label>
+                    <input type="text" name="name" placeholder="您的姓名">
+                </div>
+                <div class="form-group">
+                    <label>公司名称</label>
+                    <input type="text" name="company" placeholder="公司/店铺名称">
+                </div>
+                <button type="submit" class="btn-primary btn-block">开始免费试用</button>
+            </form>
+            <p class="auth-link">已有账号？ <a href="/auth/login">登录</a></p>
+        </div>
+    </div>
+</body>
+</html>

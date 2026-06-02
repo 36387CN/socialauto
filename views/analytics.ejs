@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %> - 社媒自动化助手</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <div class="app-layout">
+        <nav class="sidebar">
+            <div class="sidebar-header">
+                <h2>社媒自动化助手</h2>
+            </div>
+            <ul class="nav-list">
+                <li><a href="/dashboard" class="nav-item">控制台</a></li>
+                <li><a href="/dashboard/posts" class="nav-item">内容管理</a></li>
+                <li><a href="/dashboard/analytics" class="nav-item">数据分析</a></li>
+                <li><a href="/dashboard/settings" class="nav-item">设置</a></li>
+            </ul>
+            <div class="sidebar-footer">
+                <span><%= user.name || user.email %></span>
+                <a href="/auth/logout" class="btn-small">退出</a>
+            </div>
+        </nav>
+        <main class="main-content">
+            <h1>数据分析</h1>
+            <% if (data.length === 0) { %>
+                <div class="empty-state">
+                    <p>暂无数据。发布内容后，数据将在这里展示。</p>
+                </div>
+            <% } %>
+            <% data.forEach(function(d) { %>
+                <div class="analytics-card">
+                    <h3><%= d.platform %></h3>
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-value"><%= d.impressions %></div>
+                            <div class="stat-label">曝光</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value"><%= d.clicks %></div>
+                            <div class="stat-label">点击</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value"><%= d.interactions %></div>
+                            <div class="stat-label">互动</div>
+                        </div>
+                    </div>
+                </div>
+            <% }) %>
+        </main>
+    </div>
+</body>
+</html>

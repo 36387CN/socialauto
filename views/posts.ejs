@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %> - 社媒自动化助手</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <div class="app-layout">
+        <nav class="sidebar">
+            <div class="sidebar-header">
+                <h2>社媒自动化助手</h2>
+            </div>
+            <ul class="nav-list">
+                <li><a href="/dashboard" class="nav-item">控制台</a></li>
+                <li><a href="/dashboard/posts" class="nav-item active">内容管理</a></li>
+                <li><a href="/dashboard/analytics" class="nav-item">数据分析</a></li>
+                <li><a href="/dashboard/settings" class="nav-item">设置</a></li>
+            </ul>
+            <div class="sidebar-footer">
+                <span><%= user.name || user.email %></span>
+                <a href="/auth/logout" class="btn-small">退出</a>
+            </div>
+        </nav>
+        <main class="main-content">
+            <div class="section-header">
+                <h1>内容管理</h1>
+                <a href="/dashboard/posts/new" class="btn-primary">+ 新建内容</a>
+            </div>
+
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>内容</th>
+                        <th>平台</th>
+                        <th>状态</th>
+                        <th>排期</th>
+                        <th>创建时间</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% if (posts.length === 0) { %>
+                        <tr><td colspan="6" class="empty">暂无内容，点击"新建内容"开始</td></tr>
+                    <% } %>
+                    <% posts.forEach(function(p) { %>
+                        <tr>
+                            <td class="truncate"><%= p.content.substring(0, 50) %></td>
+                            <td><%= p.platform %></td>
+                            <td><span class="badge badge-<%= p.status %>"><%= p.status === "scheduled" ? "已排期" : p.status === "draft" ? "草稿" : p.status %></span></td>
+                            <td><%= p.scheduled_at ? new Date(p.scheduled_at).toLocaleString("zh-CN") : "-" %></td>
+                            <td><%= new Date(p.created_at).toLocaleDateString("zh-CN") %></td>
+                            <td>
+                                <form method="POST" action="/dashboard/posts/<%= p.id %>/delete" style="display:inline">
+                                    <button type="submit" class="btn-small btn-danger">删除</button>
+                                </form>
+                            </td>
+                        </tr>
+                    <% }) %>
+                </tbody>
+            </table>
+        </main>
+    </div>
+</body>
+</html>

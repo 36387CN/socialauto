@@ -1,0 +1,21 @@
+{
+  "name": "socialauto-app",
+  "version": "1.0.0",
+  "description": "社媒自动化助手 - 小企业社媒运营SaaS",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "bcryptjs": "^3.0.3",
+    "ejs": "^6.0.1",
+    "express": "^5.2.1",
+    "express-session": "^1.19.0",
+    "sql.js": "^1.14.1"
+  }
+}
