@@ -13,10 +13,11 @@
                 <h2>社媒自动化助手</h2>
             </div>
             <ul class="nav-list">
-                <li><a href="/dashboard" class="nav-item active">控制台</a></li>
-                <li><a href="/dashboard/posts" class="nav-item">内容管理</a></li>
-                <li><a href="/dashboard/analytics" class="nav-item">数据分析</a></li>
-                <li><a href="/dashboard/settings" class="nav-item">设置</a></li>
+                <li><a href="/dashboard" class="nav-item active">&#9632; 控制台</a></li>
+                <li><a href="/dashboard/posts" class="nav-item">&#9998; 内容管理</a></li>
+                <li><a href="/dashboard/analytics" class="nav-item">&#128200; 数据分析</a></li>
+                <li><a href="/dashboard/referral" class="nav-item">&#127881; 推荐好友</a></li>
+                <li><a href="/dashboard/settings" class="nav-item">&#9881; 设置</a></li>
             </ul>
             <div class="sidebar-footer">
                 <span><%= user.name || user.email %></span>
@@ -25,6 +26,12 @@
         </nav>
         <main class="main-content">
             <h1>控制台</h1>
+
+            <div class="free-banner" style="background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;border-radius:10px;padding:15px 20px;margin-bottom:25px;display:flex;justify-content:space-between;align-items:center;">
+                <span>&#128161; 免费试用剩余 <strong><%= freeDays %></strong> 天</span>
+                <a href="/dashboard/referral" style="color:#fff;text-decoration:underline;">推荐好友延长试用 &rarr;</a>
+            </div>
+
             <div class="stats-grid">
                 <div class="stat-card">
                     <div class="stat-value"><%= totalPosts %></div>
@@ -39,8 +46,8 @@
                     <div class="stat-label">总点击</div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-value"><%= totalInteractions %></div>
-                    <div class="stat-label">总互动</div>
+                    <div class="stat-value"><%= referrals %></div>
+                    <div class="stat-label">推荐成功</div>
                 </div>
             </div>
 
@@ -60,7 +67,7 @@
                     </thead>
                     <tbody>
                         <% if (posts.length === 0) { %>
-                            <tr><td colspan="4" class="empty">暂无内容，点击右上角新建</td></tr>
+                            <tr><td colspan="4" class="empty">暂无内容，<a href="/dashboard/posts/new">新建第一条内容</a></td></tr>
                         <% } %>
                         <% posts.forEach(function(p) { %>
                             <tr>

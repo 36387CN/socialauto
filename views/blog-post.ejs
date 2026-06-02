@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %> - 社媒自动化助手</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <meta name="description" content="<%= post.summary %>">
+</head>
+<body>
+    <div class="blog-layout">
+        <nav class="blog-nav">
+            <div class="container" style="display:flex;justify-content:space-between;align-items:center;padding:15px 0;">
+                <a href="/blog" style="font-weight:bold;color:#4a90e2;text-decoration:none;">&#128240; 博客</a>
+                <div>
+                    <a href="/auth/login" style="margin-right:15px;color:#666;text-decoration:none;">登录</a>
+                    <a href="/auth/register" class="btn-primary btn-small">免费试用</a>
+                </div>
+            </div>
+        </nav>
+        <div class="container" style="padding:30px 0;max-width:800px;">
+            <a href="/blog" style="color:#888;text-decoration:none;font-size:0.9rem;">&larr; 返回博客列表</a>
+            <article style="background:#fff;border-radius:10px;padding:35px;margin-top:15px;box-shadow:0 2px 8px rgba(0,0,0,0.06);">
+                <h1 style="margin-bottom:10px;"><%= post.title %></h1>
+                <div style="color:#aaa;font-size:0.85rem;margin-bottom:25px;">
+                    <%= new Date(post.created_at).toLocaleDateString("zh-CN") %> &middot; <%= post.tags %>
+                </div>
+                <div style="line-height:1.8;font-size:1rem;">
+                    <p><%= post.summary %></p>
+                    <div style="background:#f0f2f5;border-radius:8px;padding:25px;margin:25px 0;text-align:center;">
+                        <p style="margin-bottom:10px;font-weight:bold;">&#128161; 想看完整版？</p>
+                        <p style="color:#888;margin-bottom:15px;">注册社媒自动化助手，获取更多社媒运营技巧和工具</p>
+                        <a href="/auth/register" class="btn-primary">免费注册查看完整内容</a>
+                    </div>
+                    <p style="color:#888;"><%= post.content %></p>
+                </div>
+            </article>
+        </div>
+        <footer style="text-align:center;padding:20px;color:#888;font-size:0.85rem;">
+            &copy; 2026 社媒自动化助手 &middot; <a href="/" style="color:#4a90e2;">首页</a> &middot; <a href="/templates/list" style="color:#4a90e2;">免费模板</a>
+        </footer>
+    </div>
+</body>
+</html>

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %> - 社媒自动化助手</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <div class="app-layout">
+        <nav class="sidebar">
+            <div class="sidebar-header">
+                <h2>社媒自动化助手</h2>
+            </div>
+            <ul class="nav-list">
+                <li><a href="/dashboard" class="nav-item">&#9632; 控制台</a></li>
+                <li><a href="/dashboard/posts" class="nav-item">&#9998; 内容管理</a></li>
+                <li><a href="/dashboard/analytics" class="nav-item">&#128200; 数据分析</a></li>
+                <li><a href="/dashboard/referral" class="nav-item active">&#127881; 推荐好友</a></li>
+                <li><a href="/dashboard/settings" class="nav-item">&#9881; 设置</a></li>
+            </ul>
+            <div class="sidebar-footer">
+                <span><%= user.name || user.email %></span>
+                <a href="/auth/logout" class="btn-small">退出</a>
+            </div>
+        </nav>
+        <main class="main-content">
+            <h1>&#127881; 推荐好友，双方都赚</h1>
+
+            <div class="referral-hero" style="background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;border-radius:12px;padding:30px;text-align:center;margin-bottom:25px;">
+                <div style="font-size:2rem;margin-bottom:5px;">每推荐1个好友注册，你和好友各得 <strong>30天免费</strong></div>
+                <p style="opacity:0.9;margin-bottom:5px;">好友通过你的链接注册，双方各延长30天免费使用期</p>
+                <p style="opacity:0.7;font-size:0.85rem;">当前剩余免费天数：<strong><%= freeDays %></strong> 天</p>
+            </div>
+
+            <div class="share-box" style="background:#fff;border-radius:10px;padding:20px;margin-bottom:25px;box-shadow:0 2px 8px rgba(0,0,0,0.06);">
+                <h3 style="margin-bottom:10px;">你的专属推荐链接</h3>
+                <div style="display:flex;gap:10px;">
+                    <input type="text" id="shareUrl" value="<%= shareUrl %>" readonly
+                        style="flex:1;padding:10px 14px;border:1px solid #ddd;border-radius:6px;font-size:0.95rem;">
+                    <button onclick="navigator.clipboard.writeText(document.getElementById('shareUrl').value);this.textContent='已复制!';setTimeout(()=>this.textContent='复制',2000)"
+                        class="btn-primary">复制</button>
+                </div>
+                <div style="margin-top:12px;font-size:0.9rem;color:#888;">
+                    推荐码：<strong><%= referralCode %></strong>
+                </div>
+            </div>
+
+            <section class="section">
+                <h3 style="margin-bottom:15px;">推荐记录</h3>
+                <table class="table">
+                    <thead>
+                        <tr><th>好友邮箱</th><th>状态</th><th>时间</th></tr>
+                    </thead>
+                    <tbody>
+                        <% if (referrals.length === 0) { %>
+                            <tr><td colspan="3" class="empty">暂无推荐记录。分享你的链接开始推荐！</td></tr>
+                        <% } %>
+                        <% referrals.forEach(function(r) { %>
+                            <tr>
+                                <td><%= r.email %></td>
+                                <td><span class="badge <%= r.status === 'converted' ? 'badge-scheduled' : 'badge-draft' %>">
+                                    <%= r.status === 'converted' ? '&#10003; 已注册' : '待确认' %></span></td>
+                                <td><%= new Date(r.created_at).toLocaleDateString("zh-CN") %></td>
+                            </tr>
+                        <% }) %>
+                    </tbody>
+                </table>
+            </section>
+
+            <div class="tip-box" style="background:#e8f5e9;border-radius:8px;padding:15px;color:#2e7d32;font-size:0.9rem;">
+                <strong>&#128161; 推广小技巧：</strong>将推荐链接分享到你的微信群、朋友圈、发给你认识的同行朋友。
+                推荐10个好友 = 300天免费使用！
+            </div>
+        </main>
+    </div>
+</body>
+</html>

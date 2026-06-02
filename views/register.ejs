@@ -11,18 +11,24 @@
         <div class="auth-card">
             <a href="/" class="auth-logo">社媒自动化助手</a>
             <h2>免费注册</h2>
-            <p class="auth-subtitle">7天免费试用，随时取消</p>
+            <p class="auth-subtitle">7天免费试用，<strong><%= ref ? '推荐注册享30天' : '随时取消' %></strong></p>
             <% if (error) { %>
                 <div class="alert alert-error"><%= error %></div>
             <% } %>
             <form method="POST" action="/auth/register">
+                <% if (ref) { %>
+                    <div class="ref-banner">&#127881; 推荐链接有效！注册即享 <strong>30天免费</strong></div>
+                    <input type="hidden" name="ref" value="<%= ref %>">
+                <% } else { %>
+                    <input type="hidden" name="ref" value="">
+                <% } %>
                 <div class="form-group">
                     <label>邮箱 *</label>
                     <input type="email" name="email" placeholder="your@email.com" required>
                 </div>
                 <div class="form-group">
                     <label>密码 *</label>
-                    <input type="password" name="password" placeholder="至少6位密码" minlength="6" required>
+                    <input type="password" name="password" placeholder="至少6位" minlength="6" required>
                 </div>
                 <div class="form-group">
                     <label>姓名</label>

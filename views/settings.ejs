@@ -13,10 +13,11 @@
                 <h2>社媒自动化助手</h2>
             </div>
             <ul class="nav-list">
-                <li><a href="/dashboard" class="nav-item">控制台</a></li>
-                <li><a href="/dashboard/posts" class="nav-item">内容管理</a></li>
-                <li><a href="/dashboard/analytics" class="nav-item">数据分析</a></li>
-                <li><a href="/dashboard/settings" class="nav-item active">设置</a></li>
+                <li><a href="/dashboard" class="nav-item">&#9632; 控制台</a></li>
+                <li><a href="/dashboard/posts" class="nav-item">&#9998; 内容管理</a></li>
+                <li><a href="/dashboard/analytics" class="nav-item">&#128200; 数据分析</a></li>
+                <li><a href="/dashboard/referral" class="nav-item">&#127881; 推荐好友</a></li>
+                <li><a href="/dashboard/settings" class="nav-item active">&#9881; 设置</a></li>
             </ul>
             <div class="sidebar-footer">
                 <span><%= user.name || user.email %></span>
@@ -24,7 +25,7 @@
             </div>
         </nav>
         <main class="main-content">
-            <h1>设置</h1>
+            <h1>&#9881; 设置</h1>
             <form method="POST" action="/dashboard/settings" class="settings-form">
                 <div class="form-group">
                     <label>邮箱（不可修改）</label>
@@ -40,7 +41,12 @@
                 </div>
                 <div class="form-group">
                     <label>当前套餐</label>
-                    <input type="text" value="<%= user.plan === 'free' ? '免费试用中' : user.plan %>" disabled>
+                    <input type="text" value="免费试用中（<%= user.free_days || 7 %>天）" disabled>
+                </div>
+                <div class="form-group">
+                    <label>推荐码</label>
+                    <input type="text" value="<%= user.referral_code %>" disabled>
+                    <small>分享推荐链接给好友，双方各得30天免费</small>
                 </div>
                 <button type="submit" class="btn-primary">保存设置</button>
             </form>

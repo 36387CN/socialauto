@@ -17,6 +17,8 @@ router.get("/", async (req, res) => {
     const totalImpressions = analytics[0].values[0][0];
     const totalClicks = analytics[0].values[0][1];
     const totalInteractions = analytics[0].values[0][2];
+    const refCount = query("SELECT COUNT(*) FROM referrals WHERE referrer_id = ? AND status = 'converted'", [userId]);
+    const referrals = refCount[0].values[0][0];
     const recentPosts = query("SELECT id, content, platform, scheduled_at, status FROM posts WHERE user_id = ? ORDER BY created_at DESC LIMIT 5", [userId]);
     const posts = recentPosts.length > 0 ? recentPosts[0].values.map(function(r) {
       return { id: r[0], content: r[1], platform: r[2], scheduled_at: r[3], status: r[4] };
@@ -27,12 +29,31 @@ router.get("/", async (req, res) => {
       totalImpressions: totalImpressions,
       totalClicks: totalClicks,
       totalInteractions: totalInteractions,
+      referrals: referrals,
+      freeDays: req.session.user.free_days || 7,
       posts: posts
     });
   } catch (err) {
     console.error(err);
     res.send("加载失败");
   }
+});
+
+// Referral page
+router.get("/referral", (req, res) => {
+  const userId = req.session.user.id;
+  const refResult = query("SELECT referred_email, status, created_at FROM referrals WHERE referrer_id = ? ORDER BY created_at DESC", [userId]);
+  const referrals = refResult.length > 0 ? refResult[0].values.map(function(r) {
+    return { email: r[0], status: r[1], created_at: r[2] };
+  }) : [];
+  const shareUrl = "https://" + req.get("host") + "/ref/" + req.session.user.referral_code;
+  res.render("referral", {
+    title: "推荐好友",
+    referralCode: req.session.user.referral_code,
+    shareUrl: shareUrl,
+    freeDays: req.session.user.free_days || 7,
+    referrals: referrals
+  });
 });
 
 router.get("/posts", async (req, res) => {
@@ -59,7 +80,7 @@ router.post("/posts", async (req, res) => {
     if (!content || !platform) {
       return res.redirect("/dashboard/posts/new");
     }
-    run("INSERT INTO posts (user_id, content, platform, scheduled_at, status) VALUES (?, ?, ?, ?, ?)",
+    run("INSERT INTO posts (user_id, content, platform, scheduled_at, status, show_branding) VALUES (?, ?, ?, ?, ?, 1)",
       [req.session.user.id, content, platform, scheduled_at || null, scheduled_at ? "scheduled" : "draft"]);
     saveDb();
     res.redirect("/dashboard/posts");

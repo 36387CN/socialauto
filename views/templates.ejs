@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %> - 社媒自动化助手</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <meta name="description" content="免费小企业社媒文案模板，朋友圈营销、产品促销、节日问候等模板免费下载">
+</head>
+<body>
+    <div class="blog-layout">
+        <nav class="blog-nav">
+            <div class="container" style="display:flex;justify-content:space-between;align-items:center;padding:15px 0;">
+                <a href="/" style="font-weight:bold;color:#4a90e2;text-decoration:none;font-size:1.1rem;">&#128203; 社媒自动化助手</a>
+                <div>
+                    <a href="/auth/login" style="margin-right:15px;color:#666;text-decoration:none;">登录</a>
+                    <a href="/auth/register" class="btn-primary btn-small">免费注册使用</a>
+                </div>
+            </div>
+        </nav>
+        <div class="container" style="padding:30px 0;">
+            <h1 style="margin-bottom:8px;">免费社媒文案模板</h1>
+            <p style="color:#888;margin-bottom:30px;">精选小企业社媒运营模板，一键复制使用。注册后可用AI智能生成更多文案。</p>
+            <div class="grid">
+                <% if (templates.length === 0) { %>
+                    <p>暂无模板</p>
+                <% } %>
+                <% templates.forEach(function(t) { %>
+                    <div class="card" style="text-align:left;">
+                        <span class="badge badge-scheduled" style="margin-bottom:10px;"><%= t.category %></span>
+                        <h3 style="font-size:1.1rem;margin-bottom:8px;"><%= t.title %></h3>
+                        <div style="color:#888;font-size:0.85rem;margin-bottom:12px;">
+                            <span>&#11088; <%= t.downloads %> 次使用</span>
+                        </div>
+                        <button onclick="navigator.clipboard.writeText('使用社媒自动化助手，获取完整模板库和AI文案生成功能');alert('注册后可解锁所有模板！')"
+                            style="width:100%;padding:8px;border:1px solid #4a90e2;border-radius:6px;background:transparent;color:#4a90e2;cursor:pointer;font-weight:600;">
+                            注册使用
+                        </button>
+                    </div>
+                <% }) %>
+            </div>
+            <div style="text-align:center;margin-top:40px;padding:30px;background:#fff;border-radius:10px;box-shadow:0 2px 8px rgba(0,0,0,0.06);">
+                <h3>想要更多模板和AI文案功能？</h3>
+                <p style="color:#888;margin:10px 0 20px;">注册社媒自动化助手，免费使用AI智能文案生成 + 100+营销模板</p>
+                <a href="/auth/register" class="btn-primary">免费注册</a>
+            </div>
+        </div>
+        <footer style="text-align:center;padding:20px;color:#888;font-size:0.85rem;">
+            &copy; 2026 社媒自动化助手 &middot; <a href="/blog" style="color:#4a90e2;">博客</a>
+        </footer>
+    </div>
+</body>
+</html>

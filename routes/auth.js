@@ -1,7 +1,12 @@
 const express = require("express");
 const bcrypt = require("bcryptjs");
+const crypto = require("crypto");
 const { query, run, saveDb } = require("../db");
 const router = express.Router();
+
+function generateCode() {
+  return "SA" + crypto.randomBytes(4).toString("hex").toUpperCase();
+}
 
 router.get("/login", (req, res) => {
   if (req.session.user) return res.redirect("/dashboard");
@@ -10,32 +15,51 @@ router.get("/login", (req, res) => {
 
 router.get("/register", (req, res) => {
   if (req.session.user) return res.redirect("/dashboard");
-  res.render("register", { title: "注册", error: null });
+  const ref = req.query.ref || "";
+  res.render("register", { title: "注册", error: null, ref: ref });
 });
 
 router.post("/register", async (req, res) => {
   try {
-    const { email, password, name, company } = req.body;
+    const { email, password, name, company, ref } = req.body;
     if (!email || !password) {
-      return res.render("register", { title: "注册", error: "邮箱和密码不能为空" });
+      return res.render("register", { title: "注册", error: "邮箱和密码不能为空", ref: ref || "" });
     }
     const existing = query("SELECT id FROM users WHERE email = ?", [email]);
     if (existing.length > 0 && existing[0].values.length > 0) {
-      return res.render("register", { title: "注册", error: "该邮箱已注册" });
+      return res.render("register", { title: "注册", error: "该邮箱已注册", ref: ref || "" });
     }
     const hashed = await bcrypt.hash(password, 10);
-    run("INSERT INTO users (email, password, name, company) VALUES (?, ?, ?, ?)",
-      [email, hashed, name || "", company || ""]);
+    let code = generateCode();
+    while (query("SELECT id FROM users WHERE referral_code = ?", [code]).length > 0) {
+      code = generateCode();
+    }
+    let referredBy = null;
+    let freeDays = 7;
+    if (ref) {
+      const refUser = query("SELECT id FROM users WHERE referral_code = ?", [ref]);
+      if (refUser.length > 0 && refUser[0].values.length > 0) {
+        referredBy = refUser[0].values[0][0];
+        freeDays = 30;
+        run("INSERT INTO referrals (referrer_id, referred_email, status) VALUES (?, ?, 'converted')",
+          [referredBy, email]);
+        run("UPDATE users SET free_days = free_days + 30 WHERE id = ?", [referredBy]);
+      }
+    }
+    run("INSERT INTO users (email, password, name, company, referral_code, referred_by, free_days) VALUES (?, ?, ?, ?, ?, ?, ?)",
+      [email, hashed, name || "", company || "", code, referredBy, freeDays]);
     saveDb();
-    const rows = query("SELECT id, email, name, company, plan FROM users WHERE email = ?", [email]);
-    const user = rows[0].values[0];
+
+    const rows = query("SELECT id, email, name, company, plan, referral_code, free_days FROM users WHERE email = ?", [email]);
+    const u = rows[0].values[0];
     req.session.user = {
-      id: user[0], email: user[1], name: user[2], company: user[3], plan: user[4]
+      id: u[0], email: u[1], name: u[2], company: u[3],
+      plan: u[4], referral_code: u[5], free_days: u[6]
     };
     res.redirect("/dashboard");
   } catch (err) {
     console.error(err);
-    res.render("register", { title: "注册", error: "注册失败，请稍后再试" });
+    res.render("register", { title: "注册", error: "注册失败", ref: (req.body.ref || "") });
   }
 });
 
@@ -45,22 +69,23 @@ router.post("/login", async (req, res) => {
     if (!email || !password) {
       return res.render("login", { title: "登录", error: "邮箱和密码不能为空" });
     }
-    const rows = query("SELECT id, email, password, name, company, plan FROM users WHERE email = ?", [email]);
+    const rows = query("SELECT id, email, password, name, company, plan, referral_code, free_days FROM users WHERE email = ?", [email]);
     if (rows.length === 0 || rows[0].values.length === 0) {
       return res.render("login", { title: "登录", error: "邮箱或密码错误" });
     }
-    const user = rows[0].values[0];
-    const match = await bcrypt.compare(password, user[2]);
+    const u = rows[0].values[0];
+    const match = await bcrypt.compare(password, u[2]);
     if (!match) {
       return res.render("login", { title: "登录", error: "邮箱或密码错误" });
     }
     req.session.user = {
-      id: user[0], email: user[1], name: user[3], company: user[4], plan: user[5]
+      id: u[0], email: u[1], name: u[3], company: u[4],
+      plan: u[5], referral_code: u[6], free_days: u[7]
     };
     res.redirect("/dashboard");
   } catch (err) {
     console.error(err);
-    res.render("login", { title: "登录", error: "登录失败，请稍后再试" });
+    res.render("login", { title: "登录", error: "登录失败" });
   }
 });
 

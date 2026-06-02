@@ -3,39 +3,49 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><%= title %></title>
+    <title><%= title %> - 小企业社媒运营自动化工具</title>
     <link rel="stylesheet" href="/css/style.css">
+    <meta name="description" content="小企业社媒运营自动化工具，自动发布朋友圈、微博、抖音，AI智能文案，数据分析。7天免费试用。">
 </head>
 <body>
     <header>
         <div class="container">
-            <h1>社媒自动化助手</h1>
-            <p>让小企业社媒运营自动化，每天只需5分钟，获取更多客户</p>
-            <div class="header-actions">
-                <a href="/auth/login" class="btn-outline">登录</a>
-                <a href="/auth/register" class="btn-primary">免费试用 7天</a>
+            <div class="top-nav" style="display:flex;justify-content:space-between;align-items:center;margin-bottom:40px;">
+                <span style="font-weight:bold;font-size:1.2rem;">社媒自动化助手</span>
+                <div>
+                    <a href="/blog" style="color:rgba(255,255,255,0.9);text-decoration:none;margin-right:20px;font-size:0.9rem;">博客</a>
+                    <a href="/templates/list" style="color:rgba(255,255,255,0.9);text-decoration:none;margin-right:20px;font-size:0.9rem;">免费模板</a>
+                    <a href="/auth/login" style="color:#fff;text-decoration:none;margin-right:15px;">登录</a>
+                    <a href="/auth/register" class="btn-outline" style="padding:8px 20px;font-size:0.9rem;">免费试用</a>
+                </div>
             </div>
+            <h1>小企业社媒运营，每天只需5分钟</h1>
+            <p>自动发布朋友圈、微博、抖音 &middot; AI智能写文案 &middot; 数据效果追踪</p>
+            <div class="header-actions">
+                <a href="/auth/register" class="btn-primary btn-large">免费试用 7天</a>
+            </div>
+            <p style="margin-top:15px;font-size:0.9rem;opacity:0.85;">无需信用卡 &middot; 随时取消 &middot; 已服务 2,345+ 小企业</p>
         </div>
     </header>
 
     <section class="features" id="features">
         <div class="container">
-            <h2>为什么选择我们？</h2>
+            <h2>一个工具搞定所有社媒平台</h2>
             <div class="grid">
                 <div class="card">
                     <div class="card-icon">&#x1F4E4;</div>
                     <h3>自动发布</h3>
-                    <p>一键排发朋友圈、微博、抖音等平台内容，定时自动发布</p>
+                    <p>一键排发微信朋友圈、微博、抖音、小红书、公众号，定时自动发布，不用每天手动操作</p>
                 </div>
                 <div class="card">
                     <div class="card-icon">&#x1F916;</div>
-                    <h3>智能文案</h3>
-                    <p>AI生成营销文案，提升转化率</p>
+                    <h3>AI智能文案</h3>
+                    <p>输入关键词，AI自动生成营销文案，提升转化率，告别写作困难</p>
                 </div>
                 <div class="card">
                     <div class="card-icon">&#x1F4CA;</div>
-                    <h3>数据报表</h3>
-                    <p>实时监控曝光、互动，优化运营策略</p>
+                    <h3>数据看板</h3>
+                    <p>实时监控各平台曝光、点击、互动数据，知道什么内容有效</p>
                 </div>
             </div>
         </div>
@@ -43,7 +53,7 @@
 
     <section class="pricing" id="pricing">
         <div class="container">
-            <h2>简单定价</h2>
+            <h2>简单定价，无隐藏费用</h2>
             <div class="price-card">
                 <div class="price-badge">最受欢迎</div>
                 <h3>专业版</h3>
@@ -51,26 +61,57 @@
                 <ul>
                     <li>&#10003; 无限自动发布</li>
                     <li>&#10003; AI文案生成</li>
-                    <li>&#10003; 数据分析报表</li>
-                    <li>&#10003; 7x12客服支持</li>
                     <li>&#10003; 多平台管理</li>
+                    <li>&#10003; 数据报表分析</li>
+                    <li>&#10003; 7x12客服支持</li>
                 </ul>
-                <a href="/auth/register" class="btn-primary">立即订阅</a>
+                <a href="/auth/register" class="btn-primary">开始免费试用</a>
             </div>
+            <p style="text-align:center;margin-top:20px;color:#888;font-size:0.85rem;">
+                &#127881; 推荐好友注册，双方各得30天免费使用 &rarr;
+                <a href="/auth/register" style="color:#4a90e2;">了解更多</a>
+            </p>
         </div>
     </section>
 
-    <section id="signup" class="cta">
+    <section class="cta">
         <div class="container">
-            <h2>准备好提升社媒效果了吗？</h2>
-            <p>免费试用7天，无需信用卡，随时取消</p>
-            <a href="/auth/register" class="btn-primary btn-large">开始免费试用</a>
-            <p class="note">已有 2,345+ 家小企业在使用</p>
+            <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:30px;margin-bottom:40px;">
+                <div>
+                    <h3 style="font-size:1.3rem;margin-bottom:10px;">&#128240; 社媒运营博客</h3>
+                    <p style="font-size:0.9rem;opacity:0.9;">朋友圈营销、抖音运营、小红书种草 — 免费学习</p>
+                    <a href="/blog" style="color:#fff;text-decoration:underline;font-size:0.9rem;">浏览文章 &rarr;</a>
+                </div>
+                <div>
+                    <h3 style="font-size:1.3rem;margin-bottom:10px;">&#128203; 免费文案模板</h3>
+                    <p style="font-size:0.9rem;opacity:0.9;">促销文案、节日问候、产品介绍模板免费使用</p>
+                    <a href="/templates/list" style="color:#fff;text-decoration:underline;font-size:0.9rem;">查看模板 &rarr;</a>
+                </div>
+                <div>
+                    <h3 style="font-size:1.3rem;margin-bottom:10px;">&#127881; 推荐有奖</h3>
+                    <p style="font-size:0.9rem;opacity:0.9;">推荐好友注册，双方各得30天免费使用</p>
+                    <a href="/auth/register" style="color:#fff;text-decoration:underline;font-size:0.9rem;">开始推荐 &rarr;</a>
+                </div>
+            </div>
+            <h2>开始提升你的社媒效果</h2>
+            <p>7天免费试用，无需信用卡，随时取消</p>
+            <a href="/auth/register" class="btn-primary btn-large">免费注册</a>
         </div>
     </section>
 
     <footer>
         <div class="container">
+            <div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:20px;margin-bottom:20px;">
+                <div>
+                    <strong style="font-size:1rem;">社媒自动化助手</strong>
+                    <p style="font-size:0.8rem;opacity:0.7;margin-top:5px;">让小企业社媒运营更简单</p>
+                </div>
+                <div>
+                    <a href="/blog" style="color:#fff;text-decoration:none;margin-right:15px;font-size:0.85rem;">博客</a>
+                    <a href="/templates/list" style="color:#fff;text-decoration:none;margin-right:15px;font-size:0.85rem;">模板</a>
+                    <a href="/auth/register" style="color:#fff;text-decoration:none;font-size:0.85rem;">注册</a>
+                </div>
+            </div>
             <p>&copy; 2026 社媒自动化助手. 保留所有权利。</p>
         </div>
     </footer>
