@@ -29,7 +29,7 @@ router.post("/register", async (req, res) => {
     if (existing.length > 0 && existing[0].values.length > 0) {
       return res.render("register", { title: "注册", error: "该邮箱已注册", ref: ref || "" });
     }
-    const hashed = await bcrypt.hash(password, 10);
+    const hashed = await bcrypt.hash(password, 5);
     let code = generateCode();
     while (query("SELECT id FROM users WHERE referral_code = ?", [code]).length > 0) {
       code = generateCode();
