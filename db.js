@@ -69,7 +69,8 @@ async function initDb() {
     + "password TEXT NOT NULL,"
     + "name TEXT,"
     + "company TEXT,"
-    + "plan TEXT DEFAULT 'free',"
+    + "plan TEXT DEFAULT 'free',
+    + "is_admin INTEGER DEFAULT 0,"
     + "referral_code TEXT UNIQUE,"
     + "referred_by INTEGER,"
     + "free_days INTEGER DEFAULT 7,"
@@ -167,3 +168,4 @@ initDb().catch(function(err) {
 });
 
 module.exports = { getDb, initDb, saveDb, query, run, onReady };
+

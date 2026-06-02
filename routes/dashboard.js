@@ -133,4 +133,27 @@ router.post("/settings", async (req, res) => {
   }
 });
 
+
+router.get("/admin", function(req, res) {
+  if (!req.session.user.is_admin) return res.redirect("/dashboard");
+  try {
+    var totalUsers = query("SELECT COUNT(*) FROM users")[0].values[0][0];
+    var totalPosts = query("SELECT COUNT(*) FROM posts")[0].values[0][0];
+    var totalReferrals = query("SELECT COUNT(*) FROM referrals")[0].values[0][0];
+    var recentWeek = query("SELECT COUNT(*) FROM users WHERE created_at >= datetime("now", "-7 days")")[0].values[0][0];
+    var usersResult = query("SELECT id, email, name, company, plan, is_admin, created_at FROM users ORDER BY created_at DESC");
+    var users = usersResult.length > 0 ? usersResult[0].values.map(function(r) {
+      return { id: r[0], email: r[1], name: r[2], company: r[3], plan: r[4], is_admin: r[5], created_at: r[6] };
+    }) : [];
+    res.render("admin", {
+      title: "管理后台",
+      stats: { totalUsers: totalUsers, totalPosts: totalPosts, totalReferrals: totalReferrals, recentWeek: recentWeek },
+      users: users
+    });
+  } catch(e) {
+    console.error("Admin error:", e);
+    res.status(500).send("加载失败");
+  }
+});
 module.exports = router;
+

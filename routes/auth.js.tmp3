@@ -46,15 +46,15 @@ router.post("/register", async (req, res) => {
         run("UPDATE users SET free_days = free_days + 30 WHERE id = ?", [referredBy]);
       }
     }
-    run("INSERT INTO users (email, password, name, company, referral_code, referred_by, free_days, is_admin) VALUES (?, ?, ?, ?, ?, ?, ?, (SELECT CASE WHEN (SELECT COUNT(*) FROM users) = 0 THEN 1 ELSE 0 END))",
+    run("INSERT INTO users (email, password, name, company, referral_code, referred_by, free_days) VALUES (?, ?, ?, ?, ?, ?, ?)",
       [email, hashed, name || "", company || "", code, referredBy, freeDays]);
     saveDb();
 
-    const rows = query("SELECT id, email, name, company, plan, referral_code, free_days, is_admin FROM users WHERE email = ?", [email]);
+    const rows = query("SELECT id, email, name, company, plan, referral_code, free_days FROM users WHERE email = ?", [email]);
     const u = rows[0].values[0];
     req.session.user = {
       id: u[0], email: u[1], name: u[2], company: u[3],
-      plan: u[4], referral_code: u[5], free_days: u[6], is_admin: u[7] || 0, is_admin: u[7]
+      plan: u[4], referral_code: u[5], free_days: u[6], is_admin: u[7]
     };
     res.redirect("/dashboard");
   } catch (err) {
@@ -95,4 +95,3 @@ router.get("/logout", (req, res) => {
 });
 
 module.exports = router;
-

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %> - 社媒自动化助手</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <div class="app-layout">
+        <nav class="sidebar">
+            <div class="sidebar-header">
+                <h2>社媒自动化助手</h2>
+                <div style="font-size:0.75rem;opacity:0.7;">管理员</div>
+            </div>
+            <ul class="nav-list">
+                <li><a href="/dashboard" class="nav-item">&#9632; 控制台</a></li>
+                <li><a href="/dashboard/posts" class="nav-item">&#9998; 内容管理</a></li>
+                <li><a href="/dashboard/analytics" class="nav-item">&#128200; 数据分析</a></li>
+                <li><a href="/dashboard/referral" class="nav-item">&#127881; 推荐好友</a></li>
+                <li><a href="/dashboard/admin" class="nav-item active">&#128737; 管理后台</a></li>
+                <li><a href="/dashboard/settings" class="nav-item">&#9881; 设置</a></li>
+            </ul>
+            <div class="sidebar-footer">
+                <span><%= user.name || user.email %></span>
+                <a href="/auth/logout" class="btn-small">退出</a>
+            </div>
+        </nav>
+        <main class="main-content">
+            <h1>&#128737; 管理后台</h1>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-value"><%= stats.totalUsers %></div>
+                    <div class="stat-label">总注册用户</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value"><%= stats.totalPosts %></div>
+                    <div class="stat-label">总内容数</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value"><%= stats.totalReferrals %></div>
+                    <div class="stat-label">总推荐数</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value"><%= stats.recentWeek %> / 7天</div>
+                    <div class="stat-label">本周注册</div>
+                </div>
+            </div>
+
+            <section class="section">
+                <div class="section-header">
+                    <h2>所有用户</h2>
+                </div>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>邮箱</th>
+                            <th>姓名</th>
+                            <th>公司</th>
+                            <th>套餐</th>
+                            <th>管理员</th>
+                            <th>注册时间</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% users.forEach(function(u) { %>
+                            <tr>
+                                <td><%= u.id %></td>
+                                <td><%= u.email %></td>
+                                <td><%= u.name || "-" %></td>
+                                <td><%= u.company || "-" %></td>
+                                <td><%= u.plan === "free" ? "免费" : u.plan %></td>
+                                <td><%= u.is_admin ? "&#10003;" : "" %></td>
+                                <td><%= new Date(u.created_at).toLocaleDateString("zh-CN") %></td>
+                            </tr>
+                        <% }) %>
+                    </tbody>
+                </table>
+            </section>
+        </main>
+    </div>
+</body>
+</html>
