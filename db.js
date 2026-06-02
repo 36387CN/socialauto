@@ -125,7 +125,12 @@ async function initDb() {
     + "created_at DATETIME DEFAULT CURRENT_TIMESTAMP"
     + ")");
 
-    // Migration: add is_admin column if missing
+    // Migration: add columns that may be missing from old schema
+  try { db.run("ALTER TABLE users ADD COLUMN referral_code TEXT UNIQUE"); } catch(e) {}
+  try { db.run("ALTER TABLE users ADD COLUMN referred_by INTEGER"); } catch(e) {}
+  try { db.run("ALTER TABLE users ADD COLUMN free_days INTEGER DEFAULT 7"); } catch(e) {}
+  try { db.run("ALTER TABLE users ADD COLUMN is_admin INTEGER DEFAULT 0"); } catch(e) {}
+  try { db.run("ALTER TABLE posts ADD COLUMN show_branding INTEGER DEFAULT 1"); } catch(e) {}
   try { db.run("ALTER TABLE users ADD COLUMN is_admin INTEGER DEFAULT 0"); } catch(e) {}
   // Migration: make first user admin if none exists
   var adminCheck = db.exec("SELECT COUNT(*) FROM users WHERE is_admin = 1");
@@ -178,6 +183,7 @@ initDb().catch(function(err) {
 });
 
 module.exports = { getDb, initDb, saveDb, query, run, onReady };
+
 
 
 
