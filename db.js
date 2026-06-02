@@ -69,7 +69,7 @@ async function initDb() {
     + "password TEXT NOT NULL,"
     + "name TEXT,"
     + "company TEXT,"
-    + "plan TEXT DEFAULT 'free',
+    + "plan TEXT DEFAULT 'free'," +
     + "is_admin INTEGER DEFAULT 0,"
     + "referral_code TEXT UNIQUE,"
     + "referred_by INTEGER,"
@@ -125,7 +125,9 @@ async function initDb() {
     + "created_at DATETIME DEFAULT CURRENT_TIMESTAMP"
     + ")");
 
-    // Migration: make first user admin if none exists
+    // Migration: add is_admin column if missing
+  try { db.run("ALTER TABLE users ADD COLUMN is_admin INTEGER DEFAULT 0"); } catch(e) {}
+  // Migration: make first user admin if none exists
   var adminCheck = db.exec("SELECT COUNT(*) FROM users WHERE is_admin = 1");
   if (adminCheck[0].values[0][0] === 0) {
     var userCount = db.exec("SELECT COUNT(*) FROM users");
@@ -176,5 +178,7 @@ initDb().catch(function(err) {
 });
 
 module.exports = { getDb, initDb, saveDb, query, run, onReady };
+
+
 
 
