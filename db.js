@@ -125,6 +125,14 @@ async function initDb() {
     + "created_at DATETIME DEFAULT CURRENT_TIMESTAMP"
     + ")");
 
+    // Migration: make first user admin if none exists
+  var adminCheck = db.exec("SELECT COUNT(*) FROM users WHERE is_admin = 1");
+  if (adminCheck[0].values[0][0] === 0) {
+    var userCount = db.exec("SELECT COUNT(*) FROM users");
+    if (userCount[0].values[0][0] > 0) {
+      db.run("UPDATE users SET is_admin = 1 WHERE id = (SELECT id FROM users ORDER BY id LIMIT 1)");
+    }
+  }
   // Seed templates
   var tCount = db.exec("SELECT COUNT(*) FROM templates");
   if (tCount[0].values[0][0] === 0) {
@@ -168,4 +176,5 @@ initDb().catch(function(err) {
 });
 
 module.exports = { getDb, initDb, saveDb, query, run, onReady };
+
 
